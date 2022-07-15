@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h4 class="text-center aler alert-info pt-1 pb-1">Add New Student</h4>
+            <form method="POST" action="">
+                {% csrf_token %}
+                {{abc.as_p}}
+                <input type="submit" class="btn btn-success" value="Add">
+            </form> 
+        </div>
+
+        <div class="col-sm-7 offset-1">
+            <h4 class="text-center aler alert-info pt-1 pb-1">
+                Show Student Information
+            </h4>
+            {% if stu %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th> 
+                            <th scope="col">Password</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for st in stu %}
+                            <tr>
+                                <td scope="row">{{st.id}}</td>
+                                <td>{{st.name}}</td>
+                                <td>{{st.email}}</td>
+                                <td>{{st.password}}</td>
+                                <td> 
+                                    <a href="{% url 'update-data' st.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form method="POST" action="{% url 'delete-data' st.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-danger btn-sm" value="delete">
+                                    </form>
+                                </td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h4 class="text-center aler alert-warning">No Records</h4>
+            {% endif%}
+        </div>
+
+    </div>
+{% endblock content %} 
